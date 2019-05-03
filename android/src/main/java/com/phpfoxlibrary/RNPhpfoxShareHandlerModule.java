@@ -46,9 +46,6 @@ public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
         String action = intent.getAction();
         String type = intent.getType();
 
-        WritableMap result = Arguments.createMap();
-        result.putString("type", type);
-
         WritableArray resultUris = Arguments.createArray();
 
         if (Intent.ACTION_SEND.equals(action)) {
@@ -63,9 +60,7 @@ public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
             }
         }
 
-        result.putArray("data", resultUris);
-
-        promise.resolve(result);
+        promise.resolve(resultUris);
     }
 
     private boolean isSupported(Intent intent) {
