@@ -1,8 +1,10 @@
 package com.phpfoxlibrary;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -17,8 +19,11 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
+    private ReactApplicationContext context;
+
     public RNPhpfoxShareHandlerModule(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
+        this.context = reactContext;
     }
 
     @Nonnull
@@ -44,23 +49,41 @@ public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
         }
 
         String action = intent.getAction();
-        String type = intent.getType();
+        String intentType = intent.getType();
 
-        WritableArray resultUris = Arguments.createArray();
+        WritableArray resultItems = Arguments.createArray();
+        ContentResolver contentResolver = this.context.getContentResolver();
 
         if (Intent.ACTION_SEND.equals(action)) {
-            Uri mediaUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-            resultUris.pushString(mediaUri.toString());
+            WritableMap shareObject = Arguments.createMap();
+            String type;
+            String item;
+
+            if (intentType.equals("text/plain")) {
+              type = intentType;
+              item = intent.getStringExtra(Intent.EXTRA_TEXT);
+            } else {
+              Uri mediaUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+              type = contentResolver.getType(mediaUri);
+              item = mediaUri.toString();
+            }
+
+            shareObject.putString("type", type);
+            shareObject.putString("item", item);
+            resultItems.pushMap(shareObject);
         }
 
         if (Intent.ACTION_SEND_MULTIPLE.equals(action)) {
             ArrayList<Uri> mediaUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
             for(Uri mediaUri : mediaUris) {
-                resultUris.pushString(mediaUri.toString());
+                WritableMap shareObject = Arguments.createMap();
+                shareObject.putString("type", contentResolver.getType(mediaUri));
+                shareObject.putString("item", mediaUri.toString());
+                resultItems.pushMap(shareObject);
             }
         }
 
-        promise.resolve(resultUris);
+        promise.resolve(resultItems);
     }
 
     private boolean isSupported(Intent intent) {
@@ -69,6 +92,8 @@ public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
 
         return ((Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE.equals(action))
                 && type != null
-                && (type.startsWith("image/") || type.startsWith("video/")));
+                && (type.startsWith("image/")
+                || type.startsWith("video/")
+                || type.equals("text/plain")));
     }
 }
