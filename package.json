@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://git.younetco.com/phpfox-mobile/react-native-phpfox-mobile",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
