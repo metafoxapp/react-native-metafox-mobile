@@ -94,6 +94,7 @@ public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
                 && type != null
                 && (type.startsWith("image/")
                 || type.startsWith("video/")
-                || type.equals("text/plain")));
+                || type.equals("text/plain")
+                || type.equals("*/*")));
     }
 }
