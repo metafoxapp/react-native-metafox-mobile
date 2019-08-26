@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		870E8CC92301208300353FE0 /* RNPhpfoxAsyncStorageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 870E8CC82301208300353FE0 /* RNPhpfoxAsyncStorageHelper.m */; };
 		B3E7B58A1CC2AC0600A0062D /* RNPhpfoxMobile.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNPhpfoxMobile.m */; };
 		EA1735E02255E85A003FCC98 /* RNPhpfoxImageCompresser.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1735DF2255E85A003FCC98 /* RNPhpfoxImageCompresser.m */; };
 		EA1735E422561964003FCC98 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA1735E322561963003FCC98 /* Photos.framework */; };
@@ -26,6 +27,8 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNPhpfoxMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNPhpfoxMobile.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		870E8CC72301204200353FE0 /* RNPhpfoxAsyncStorageHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNPhpfoxAsyncStorageHelper.h; sourceTree = "<group>"; };
+		870E8CC82301208300353FE0 /* RNPhpfoxAsyncStorageHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNPhpfoxAsyncStorageHelper.m; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNPhpfoxMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNPhpfoxMobile.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNPhpfoxMobile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNPhpfoxMobile.m; sourceTree = "<group>"; };
 		EA1735DF2255E85A003FCC98 /* RNPhpfoxImageCompresser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNPhpfoxImageCompresser.m; sourceTree = "<group>"; };
@@ -56,6 +59,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				870E8CC82301208300353FE0 /* RNPhpfoxAsyncStorageHelper.m */,
+				870E8CC72301204200353FE0 /* RNPhpfoxAsyncStorageHelper.h */,
 				EA1735E12255E897003FCC98 /* RNPhpfoxImageCompresser.h */,
 				EA1735DF2255E85A003FCC98 /* RNPhpfoxImageCompresser.m */,
 				B3E7B5881CC2AC0600A0062D /* RNPhpfoxMobile.h */,
@@ -112,6 +117,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -131,6 +137,7 @@
 			files = (
 				B3E7B58A1CC2AC0600A0062D /* RNPhpfoxMobile.m in Sources */,
 				EA1735E02255E85A003FCC98 /* RNPhpfoxImageCompresser.m in Sources */,
+				870E8CC92301208300353FE0 /* RNPhpfoxAsyncStorageHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
