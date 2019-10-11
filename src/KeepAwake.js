@@ -4,7 +4,7 @@ const activate = () => NativeModules.RNPhpfoxKeepAwake.activate()
 
 const deactivate = () => NativeModules.RNPhpfoxKeepAwake.deactivate()
 
-export const RNPhpfoxKeepAwake = {
+export const KeepAwake = {
   activate,
   deactivate
 }
