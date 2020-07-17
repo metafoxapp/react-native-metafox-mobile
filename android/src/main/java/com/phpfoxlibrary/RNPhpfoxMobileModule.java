@@ -1,6 +1,10 @@
 
 package com.phpfoxlibrary;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -18,5 +22,24 @@ public class RNPhpfoxMobileModule extends ReactContextBaseJavaModule {
   @Override
   public String getName() {
     return "RNPhpfoxMobile";
+  }
+
+  @ReactMethod
+  public void setWindowColor(final String colorCode) {
+    try {
+      final Activity currentActivity = getCurrentActivity();
+      if (currentActivity == null) {
+        return;
+      }
+      currentActivity.runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          int colorHexCode = Color.parseColor(colorCode);
+          currentActivity.getWindow().setBackgroundDrawable(new ColorDrawable(colorHexCode));
+        }
+      });
+    } catch (Error e) {
+      return;
+    }
   }
 }
