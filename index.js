@@ -3,6 +3,6 @@ import { ShareHandler } from './src/ShareHandler'
 import { AsyncStorageHelper } from './src/AsyncStorageHelper'
 import { KeepAwake } from './src/KeepAwake'
 import { DisplayMetrics } from './src/DisplayMetrics'
-import { Utils } from './src/Utils'
+import { NativeUtils } from './src/Utils'
 
-export { ImageCompresser, ShareHandler, AsyncStorageHelper, KeepAwake, DisplayMetrics, Utils }
+export { ImageCompresser, ShareHandler, AsyncStorageHelper, KeepAwake, DisplayMetrics, NativeUtils }

@@ -1,5 +1,5 @@
 const { setWindowColor } = require('react-native').NativeModules.RNPhpfoxMobile
 
-export const Utils = {
+export const NativeUtils = {
   setWindowColor
 }
