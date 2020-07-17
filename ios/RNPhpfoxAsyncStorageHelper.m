@@ -84,9 +84,10 @@ RCT_EXPORT_METHOD(setup)
            forKey:(NSString *)key
 {
     NSString *md5Key = [self getMd5ForKey:key];
+    NSDictionary *infoPlistDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *appGroupId = infoPlistDict[@"AppGroupID"];
     NSURL *groupURL = [[NSFileManager defaultManager]
-                       containerURLForSecurityApplicationGroupIdentifier:
-                       @"group.com.phpfox.phpfoxmobile"];
+                       containerURLForSecurityApplicationGroupIdentifier:appGroupId];
     NSURL *fileURL = [groupURL URLByAppendingPathComponent:
                       [NSString stringWithFormat:@"Library/Caches/%@", md5Key]];
     NSError *error;

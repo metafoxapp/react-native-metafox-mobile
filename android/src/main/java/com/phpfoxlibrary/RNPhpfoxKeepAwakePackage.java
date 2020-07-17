@@ -11,18 +11,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class RNPhpfoxKeepAwakePackage implements ReactPackage {
+import javax.annotation.Nonnull;
 
+public class RNPhpfoxKeepAwakePackage implements ReactPackage {
+    @Nonnull
     @Override
-    public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
+    public List<NativeModule> createNativeModules(@Nonnull ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(new RNPhpfoxKeepAwakeModule(reactContext));
     }
 
-    // Deprecated RN 0.47
-    public List<Class<? extends JavaScriptModule>> createJSModules() {
-        return Collections.emptyList();
-    }
-
+    @Nonnull
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Collections.emptyList();

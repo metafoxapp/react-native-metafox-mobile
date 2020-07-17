@@ -7,12 +7,15 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import javax.annotation.Nonnull;
+
 public class RNPhpfoxKeepAwakeModule extends ReactContextBaseJavaModule {
 
     public RNPhpfoxKeepAwakeModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
+    @Nonnull
     @Override
     public String getName() {
         return "RNPhpfoxKeepAwake";

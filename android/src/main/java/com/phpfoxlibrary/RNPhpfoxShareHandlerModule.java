@@ -68,6 +68,10 @@ public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
               item = mediaUri.toString();
             }
 
+            if (type == null) {
+                type = intentType;
+            }
+
             shareObject.putString("type", type);
             shareObject.putString("item", item);
             resultItems.pushMap(shareObject);
@@ -77,10 +81,20 @@ public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
             ArrayList<Uri> mediaUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
             for(Uri mediaUri : mediaUris) {
                 WritableMap shareObject = Arguments.createMap();
-                shareObject.putString("type", contentResolver.getType(mediaUri));
+                String type = contentResolver.getType(mediaUri);
+
+                if (type == null) {
+                    type = intentType;
+                }
+
+                shareObject.putString("type", type);
                 shareObject.putString("item", mediaUri.toString());
                 resultItems.pushMap(shareObject);
             }
+        }
+
+        if (resultItems.toArrayList().isEmpty()) {
+            resultItems = null;
         }
 
         promise.resolve(resultItems);
@@ -90,11 +104,15 @@ public class RNPhpfoxShareHandlerModule extends ReactContextBaseJavaModule {
         String action = intent.getAction();
         String type = intent.getType();
 
-        return ((Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE.equals(action))
-                && type != null
-                && (type.startsWith("image/")
-                || type.startsWith("video/")
-                || type.equals("text/plain")
-                || type.equals("*/*")));
+        if (!(Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE.equals(action))) {
+            return false;
+        }
+
+        if (type == null) {
+            return true;
+        }
+
+        return (type.startsWith("image/") || type.startsWith("video/")
+                || type.equals("text/plain") || type.equals("*/*"));
     }
 }
