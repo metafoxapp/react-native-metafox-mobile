@@ -73,6 +73,7 @@ RCT_EXPORT_METHOD(compressImage:(NSDictionary *)options
         NSString *source = [RCTConvert NSString:options[@"path"]];
         NSString *mime = [RCTConvert NSString:options[@"mime"]];
         CGFloat limit = [RCTConvert CGFloat:options[@"limit"]];
+        BOOL forceCompress = [RCTConvert BOOL:options[@"forceCompress"]];
         
         NSData *originalData = [self dataWithPhAssetUrl:source];
         UIImage *originImage = [UIImage imageWithData:originalData];
@@ -80,12 +81,13 @@ RCT_EXPORT_METHOD(compressImage:(NSDictionary *)options
                 
         NSData *imageData = nil;
         NSUInteger fileSize = originFileSize;
-        Boolean isHeic = [mime isEqualToString:@"video/quicktime"] || [mime isEqualToString:@"image/heic"];
+        BOOL isHeic = [mime isEqualToString:@"video/quicktime"] || [mime isEqualToString:@"image/heic"];
         NSString *compressMime = nil;
         NSString *imageName = nil;
+        BOOL shouldCompress = isHeic || forceCompress;
         
         // Step 1: heic file, mov image file -> auto compress to jpeg
-        if (isHeic) {
+        if (shouldCompress) {
             imageData = UIImageJPEGRepresentation(originImage, 1.0);
             
             originImage = [UIImage imageWithData:imageData];
@@ -100,7 +102,7 @@ RCT_EXPORT_METHOD(compressImage:(NSDictionary *)options
             fileSize = [imageData length];
         }
         
-        Boolean compressSuccess = (imageData != nil && limit > 0 && fileSize <= limit) || isHeic;
+        BOOL compressSuccess = (imageData != nil && limit > 0 && fileSize <= limit) || shouldCompress;
 
         if (compressSuccess) {
             imageName = [NSString stringWithFormat:@"%@.jpeg", [[NSUUID UUID] UUIDString]];
