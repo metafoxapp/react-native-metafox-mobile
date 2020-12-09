@@ -3,20 +3,23 @@
 #import "React/RCTConvert.h"
 #import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
+#import <React/RCTLog.h>
 
 @implementation RNPhpfoxImageCompresser
 
 RCT_EXPORT_MODULE()
 
-- (CGFloat)compressionQuality:  (UIImage *) image
+- (CGFloat)compressionQuality: (UIImage *) image
                     sizeLimit: (NSUInteger) limit
 {
     NSData *data = UIImageJPEGRepresentation(image, 1.0);
     NSUInteger size = [data length];
-
-    if(size > limit) {
-        return 1.0 - limit / size;
+    
+    if (size > limit && limit > 0) {
+        CGFloat result = (1.0 / ((CGFloat) size / limit));
+        return result;
     }
+    
     return 1.0;
 }
 
@@ -66,31 +69,51 @@ RCT_EXPORT_METHOD(compressImage:(NSDictionary *)options
                   successCallback:(RCTResponseSenderBlock)successCallback)
 {
     @try {
-
-
-        NSString * destination = [NSString pathWithComponents:@[NSTemporaryDirectory(),[[NSUUID UUID] UUIDString]]];
-
+        NSString * destination = nil;
         NSString *source = [RCTConvert NSString:options[@"path"]];
+        NSString *mime = [RCTConvert NSString:options[@"mime"]];
         CGFloat limit = [RCTConvert CGFloat:options[@"limit"]];
-        NSData *originalData =  [self dataWithPhAssetUrl:source];
-        UIImage *originImage =  [UIImage imageWithData:originalData];
+        
+        NSData *originalData = [self dataWithPhAssetUrl:source];
+        UIImage *originImage = [UIImage imageWithData:originalData];
         NSUInteger originFileSize = [originalData length];
+                
+        NSData *imageData = nil;
         NSUInteger fileSize = originFileSize;
-        CGFloat quality = 1.0;
-        NSData *imageData  = nil;
-
-        for (; quality > 0.1 && fileSize > limit; quality -= 0.05) {
-            imageData  = UIImageJPEGRepresentation(originImage, quality);
-            fileSize =  [imageData length];
+        Boolean isHeic = [mime isEqualToString:@"video/quicktime"] || [mime isEqualToString:@"image/heic"];
+        NSString *compressMime = nil;
+        NSString *imageName = nil;
+        
+        // Step 1: heic file, mov image file -> auto compress to jpeg
+        if (isHeic) {
+            imageData = UIImageJPEGRepresentation(originImage, 1.0);
+            
+            originImage = [UIImage imageWithData:imageData];
+            fileSize = [imageData length];
         }
+        
+        CGFloat quality = [self compressionQuality:originImage sizeLimit:limit];
+        
+        // Step 2: compress image file -> max file length <= limit
+        for (; quality > 0.1 && fileSize > limit && limit > 0; quality -= 0.05) {
+            imageData = UIImageJPEGRepresentation(originImage, quality);
+            fileSize = [imageData length];
+        }
+        
+        Boolean compressSuccess = (imageData != nil && limit > 0 && fileSize <= limit) || isHeic;
 
-        if(imageData != nil){
-            [[NSFileManager defaultManager] createFileAtPath:destination
+        if (compressSuccess) {
+            imageName = [NSString stringWithFormat:@"%@.jpeg", [[NSUUID UUID] UUIDString]];
+            NSString *imagePath = [NSString pathWithComponents:@[NSTemporaryDirectory(), imageName]];
+            
+            [[NSFileManager defaultManager] createFileAtPath:imagePath
                                                     contents:imageData
                                                   attributes:nil];
-            destination = [[NSURL fileURLWithPath: destination] absoluteString];
-        }else{
-            destination =  source;
+           
+            compressMime = @"image/jpeg";
+            destination = [[NSURL fileURLWithPath: imagePath] absoluteString];
+        } else {
+            destination = source;
         }
 
         NSDictionary *result  = @{
@@ -100,6 +123,10 @@ RCT_EXPORT_METHOD(compressImage:(NSDictionary *)options
                                   @"quality": @(quality),
                                   @"original_path": source,
                                   @"original_filesize": @(originFileSize),
+                                  @"compress_success":@(compressSuccess),
+                                  @"isHeic":@(isHeic),
+                                  @"mime": compressMime ? compressMime : [NSNull null],
+                                  @"filename": imageName ? imageName : [NSNull null]
                                   };
 
         successCallback(@[result]);

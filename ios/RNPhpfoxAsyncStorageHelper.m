@@ -95,7 +95,6 @@ RCT_EXPORT_METHOD(setup)
            atomically:YES
              encoding:NSUTF8StringEncoding
                 error:&error];
-    RCTLog(@"SAVE_VALUE_ERROR: %@", error);
 }
 
 @end

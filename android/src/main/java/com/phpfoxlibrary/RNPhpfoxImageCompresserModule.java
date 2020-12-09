@@ -106,7 +106,7 @@ public class RNPhpfoxImageCompresserModule extends ReactContextBaseJavaModule {
         result.putString("original_path", originalImagePath);
         result.putDouble("original_filesize", originalFileSize);
 
-        if (originalFileSize <= limit) {
+        if (originalFileSize <= limit || limit <= 0) {
             return result;
         }
 
