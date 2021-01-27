@@ -4,5 +4,6 @@ import { AsyncStorageHelper } from './src/AsyncStorageHelper'
 import { KeepAwake } from './src/KeepAwake'
 import { DisplayMetrics } from './src/DisplayMetrics'
 import { NativeUtils } from './src/NativeUtils'
+import { ImageFetcher } from './src/ImageFetcher'
 
-export { ImageCompresser, ShareHandler, AsyncStorageHelper, KeepAwake, DisplayMetrics, NativeUtils }
+export { ImageCompresser, ShareHandler, AsyncStorageHelper, KeepAwake, DisplayMetrics, NativeUtils, ImageFetcher }
