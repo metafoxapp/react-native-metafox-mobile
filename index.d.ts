@@ -22,4 +22,8 @@ declare module 'react-native-phpfox-mobile' {
   export const ImageCompresser: {
     compress(options: CompressOptions): Promise<CompressResult>
   }
+
+  export const ImageFetcher: {
+    getImageUrl(uri: string): Promise<string>
+  }
 }
