@@ -1,19 +1,26 @@
-
 {
   "name": "react-native-phpfox-mobile",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "",
   "main": "index.js",
-  "homepage": "https://github.com/PHPfox-Official/react-native-phpfox-mobile",
+  "private": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "react-native"
   ],
-  "author": "",
-  "license": "",
+  "author": "dev@phpfox.com",
+  "license": "MIT",
   "peerDependencies": {
-    "react-native": "^0.41.2"
-  }
+    "react-native": "*"
+  },
+  "repository": {
+    "type": "git",
+    "repository": "https://github.com/metafoxapp/react-native-metafox-mobile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/metafoxapp/react-native-metafox-mobile/issues"
+  },
+  "homepage": "https://github.com/metafoxapp/react-native-metafox-mobile#readme"
 }

@@ -1,4 +1,4 @@
-package com.phpfoxlibrary.RNPhpfoxCallState;
+package com.phpfoxlibrary;
 import com.facebook.react.bridge.JavaScriptModule;
 
 

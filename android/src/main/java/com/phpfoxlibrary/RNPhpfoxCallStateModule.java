@@ -1,4 +1,4 @@
-package com.phpfoxlibrary.RNPhpfoxCallState;
+package com.phpfoxlibrary;
 
 import android.app.Activity;
 import android.app.Application;
